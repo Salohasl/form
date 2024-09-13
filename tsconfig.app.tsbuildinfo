@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/vite-env.d.ts","./src/router/index.ts","./src/router/router.ts","./src/store/save-form.ts","./src/app.vue","./src/assets/logosvg.vue","./src/components/footer.vue","./src/components/form.vue","./src/components/header.vue","./src/components/ui/kinderform.vue","./src/page/formpage.vue","./src/page/previewpage.vue"],"version":"5.6.2"}

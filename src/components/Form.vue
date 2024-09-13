@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import KinderForm from "./ui/KinderForm.vue";
+import {useFormStorage} from "../store/save-form.ts";
 
+const { formData, saveToLocalStorage } = useFormStorage();
+
+const handleSave = () => {
+  saveToLocalStorage();
+};
 </script>
 
 <template>
@@ -14,6 +20,7 @@ import KinderForm from "./ui/KinderForm.vue";
               id="name"
               type="text"
               required
+              v-model="formData.name"
           />
         </div>
         <div class="form-group">
@@ -22,11 +29,12 @@ import KinderForm from "./ui/KinderForm.vue";
               id="age"
               type="number"
               required
+              v-model="formData.age"
           />
         </div>
-        <KinderForm />
+        <KinderForm v-model:children="formData.children" :maxChildren="5" />
       </div>
-      <button class="submit" type="submit">Сохранить</button>
+      <button class="submit" type="submit" @click="handleSave">Сохранить</button>
     </form>
   </div>
 </template>

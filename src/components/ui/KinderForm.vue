@@ -1,27 +1,43 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import {computed} from "vue";
+import {useFormStorage} from "../../store/save-form.ts";
+const { removeFromLocalStorage, saveToLocalStorage } = useFormStorage();
+
+interface Child {
+  name: string;
+  age: number | null;
+}
 
 const props = defineProps({
   maxChildren: {
     type: Number,
     default: 5
+  },
+  children: {
+    type: Array as () => Child[],
+    required: true
   }
 });
 
-const children = ref<{ name: string; age: number | null }[]>([]);
-const childrenCount = computed(() => children.value.length);
+const emit = defineEmits(['update:children']);
+
+const childrenCount = computed(() => props.children.length);
 
 const addChild = () => {
   if (childrenCount.value < props.maxChildren) {
-    children.value.push({ name: '', age: null });
+    const updatedChildren = [...props.children, { name: '', age: null }];
+    emit('update:children', updatedChildren);
+    saveToLocalStorage();
   }
 };
 
 const removeChild = (index: number) => {
-  if (index >= 0 && index < children.value.length) {
-    children.value.splice(index, 1);
-  }
+  const updatedChildren = [...props.children];
+  updatedChildren.splice(index, 1);
+  emit('update:children', updatedChildren);
+  removeFromLocalStorage(index);
 };
+
 </script>
 
 <template>
@@ -31,10 +47,10 @@ const removeChild = (index: number) => {
       <span>+</span>Добавить ребенка
     </button>
   </div>
-  <div class="form-group__block" v-for="(child, index) in children" :key="index">
+  <div class="form-group__block" v-for="(child, index) in props.children" :key="index">
     <div class="form-group__item">
       <label>Имя</label>
-      <input type="text" v-model.name="child.name" required />
+      <input type="text" v-model="child.name" required />
     </div>
     <div class="form-group__item">
       <label>Возраст</label>
