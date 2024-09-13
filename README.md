@@ -1,6 +1,7 @@
 # Vue/Vue-router + TypeScript + Vite
 
 ### Используется 20 версия Node
+### Версия npm 10.7
 
 ```Установка: npm i```
 
